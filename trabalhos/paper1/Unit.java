@@ -1,6 +1,7 @@
 package com.trabalhos.paper1;
 
 public class Unit extends Thread {
+	private String unitName = "";
 	private short health = 10;
 	private short position = 0;
 	private short startPosition = 0;
@@ -52,6 +53,15 @@ public class Unit extends Thread {
 		System.out.println(message);
 	}
 
+	
+	public String getUnitName() {
+		return unitName;
+	}
+
+	public void setUnitName(String unitName) {
+		this.unitName = unitName;
+	}
+
 	public void run() {
 
 		synchronized (this) { // allows only one unit to move at a time
@@ -60,7 +70,7 @@ public class Unit extends Thread {
 				if (position == finalPosition) {
 					if (!patrolling) {
 						try {
-							print("Unit reached destination, waiting for new command.");
+							print("Unit '"+unitName+"' reached destination, waiting for new command.");
 							this.wait();
 						} catch (InterruptedException e) {
 							// TODO Auto-generated catch block
@@ -71,7 +81,7 @@ public class Unit extends Thread {
 						finalPosition = startPosition;
 						startPosition = intermediatePosition;
 						try {
-							print("Unit reached patrol destination, waiting for 3000 milliseconds to start going back.");
+							print("Unit '"+unitName+"' reached patrol destination, waiting for 3000 milliseconds to start going back.");
 							health--;
 							this.wait(3000);
 						} catch (InterruptedException e) {
@@ -81,10 +91,10 @@ public class Unit extends Thread {
 					}
 				} else {
 					if (position < finalPosition) {
-						print("Unit moved from "+position+" to " + (position + 1)+".");
+						print("Unit '"+unitName+"' moved from "+position+" to " + (position + 1)+".");
 						position++;
 					} else {
-						print("Unit moved from "+position+" to " + (position - 1)+".");
+						print("Unit '"+unitName+"' moved from "+position+" to " + (position - 1)+".");
 						position--;
 					}
 				}
